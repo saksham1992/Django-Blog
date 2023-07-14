@@ -1,0 +1,19 @@
+To create django project-> django-admin startproject <project_name>
+To create django app-> python manage.py startapp <app_name> inside the project folder
+To run the server-> python manage.py runserver
+To create migrations-> python manage.py makemigrations
+To migrate-> python manage.py migrate
+To create superuser-> python manage.py createsuperuser
+To run the shell-> python manage.py shell
+In shell we can create posts by importing the model-> from blog.models import Post
+To create a post-> Post.objects.create(author='admin', title='Blog 1', content='First Post Content')
+To get all posts-> Post.objects.all()
+To get a specific post-> Post.objects.get(id=1)
+To get all posts by a specific user-> Post.objects.filter(author='admin')
+To order the posts by title in reverse order-> Post.objects.order_by('-title')
+To save a post-> post.save()
+To see all users-> User.objects.all()
+where User is imported from django.contrib.auth.models
+
+Django has a special command for shell to see all the posts made by the user byu using-> user.post_set.all()
+To create a post related to the same author we can use-> user.post_set.create(title='Blog 3', content='Third Post Content') and it will create the post and the post will be saved without using the post.save() command

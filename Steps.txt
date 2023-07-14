@@ -1,0 +1,52 @@
+First step was to make the django project directory and then create the virtual environment.
+
+The we create the blog app
+
+Then we created views in which we have the home view and the about view, this helps in showing the views that we get in home site or any site. We defined functions on how the view of the home page looks like on a particular request.
+
+The we created templates folder in which we created the blog directory and added the base html which is the base of home and about page. Home page extends the base html.
+
+Then we created superuser using py manage.py createsuperuser but before this we run python manage.py makemigrations and python manage.py migrate, so after these two commands the superuser is made, where we register ourselves as the admin
+
+We also go to the urls.py in blogProject directory and insert the urlpatterns for urls specific to blog app
+
+We the specify the urls for home and about page in the urls.py file in blog app
+
+We also include our project in the settings.py file in the blogProject directory in the INSTALLED_APPS line by adding blogs.apps.BlogConfig. The apps.py file contains the configuration of the app.
+
+Then we create a Post Model in the models.py present in the blogs directory which is the database in which we store all the information about the posts like title, author, date_posted and content of the post. This Post database is made on sqlite. we go to the terminal and import this model. We use the command py manage.py shell to access the shell, then we import Post as ```from blog.models import Post```, we also import User library using ```from django.contrib.auth.models import User```. Then we create a user using ```user = User.objects.filter(username='CoreyMS').first()```. Then we create a post using ```post_1 = Post(title='Blog 1', content='First Post Content!', author=user)```. Then we save the post using ```post_1.save()```. 
+
+We can also use user.pose_set.all() to see all the posts that a user has made.
+
+To see the posts we can use ```Post.objects.all()```
+To see the posts in the admin site we have to register the model in the admin.py file of blog. We import the model using ```from .models import Post``` and then we register the model using ```admin.site.register(Post)```
+
+We can also use the ```__str__``` method in the models.py file to return the title of the post instead of the object.
+
+Now we are creating user registration form. We create new app names users, connect the app in settings.py in the project directory, have a new file names forms.py in the users app directory where we create a class UserRegisterForm which inheritss from the UserCreationForms present in the django library. We also import the User model from django.contrib.auth.models. We also import the forms library from django. We create a Meta class inside the UserRegisterForm in which we can specify the fields to be shown in the form.
+
+We create urlpatterns in the ulrs.py file of the blogProject directory.
+
+We install crispy form tags. We add the crispy form tags in the settings.py file in the blogProject directory in the INSTALLED_APPS line. We also add the crispy form tags in the settings.py file in the blogProject directory in the TEMPLATES line in the DIRS list.
+
+In views.py of the users we use request.POST to get the data from the form. We also import the messages library from django.contrib. We use the messages.success() method to show the message that the user has been created. We also redirect the user to the home page after the user has been created. If the form is not valid then we show the form again. If the form is valid, we save the information provided by the user in the database.
+
+Now we create login and logout views. We use django.contrib.auth to import views which has LoginView and LogoutView that is built in for the login and logout views.  We will connect the loginView and logouView in the urls.py of the blogProject directory. We change the template_name inside the loginView.asView(template_name='user/login.html'). Now in the template we create a login.html file in the templates directory of the users app. It will be same as the register.html file. We also create a logout.html file in the templates directory of the users app.
+
+Now since the register and login pages are created we now link the buttons in the navbar to these pages.
+
+In the settings file of the blogProject directory we add the LOGIN_REDIRECT_URL = 'blog-home' which redirects the user to the home page after the user has logged in.
+
+We now create a profile page for user. We create a profile.html file in the templates directory of the users app. We also create a profile view in the views.py file of the users app. We also create a profile url in the urls. Which required the login_required decorator. 
+
+We add MEDIA_ROOT and MEDIA_URL in the settings.py file. 
+
+We create a profile model inside the users' models.py which has onetoone relationship with the User Model that is inbuilt. We add profile image, that is uploaded in the profile_pictures folder. We also add the dunder str method to return the username of the user. 
+
+We create a signals.py which is used to create new profile for the new users that are registering. Currently without signals.py only admin can create the profiles for the users. In this the user that has newly registered has the profile automatically created for them. We import the User model from django.contrib.auth.models. We also import the receiver decorator from django.dispatch. We also import the Profile model from the models.py file of the users app. We also import the post_save signal from django.db.models.signals. We then make some changes in apps.py of the users app. 
+
+We also add the signals.py in the apps.py file of the users app. We also add the apps.py in the settings.py file of the blogProject directory in the INSTALLED_APPS line.
+
+We now have to create user updation forms. We create forms in forms.py similar to the form we created for registering. 
+
+In profile.html, we add the form html that is also similar to the register.html. But here we also have to include the encryption type in the form tag using enctype="multipart/form-data" in this way the profile image that is being updated is going to be updated, otherwise the profile picture will not be updated.
